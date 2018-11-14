@@ -7,17 +7,25 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="Models\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\EmptyClass.cs" />
     <Compile Remove="GenericStorage.cs" />
+    <Compile Remove="Controllers\AccountController.cs" />
+    <Compile Remove="Config.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure">
@@ -31,9 +39,6 @@
     </Reference>
     <Reference Include="System.Web.Http.WebHost">
       <HintPath>..\..\DotNet-ContactList\ContactList\bin\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="Swashbuckle.Core">
-      <HintPath>..\..\DotNet-ContactList\ContactList\bin\Swashbuckle.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
