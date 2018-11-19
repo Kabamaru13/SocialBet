@@ -33,12 +33,12 @@ namespace SocialBet.Services
 
         public IEnumerable<Bet> GetForUser(int userId)
         {
-            return _context.Bets.FromSql("select * from [dbo].[Bet] where CreatorId={0} or RivalId={0}", userId);
+            return _context.Bets.FromSql("select * from [dbo].[Bets] where CreatorId={0} or RivalId={0}", userId);
         }
 
         public IEnumerable<Bet> GetForReferree(int userId)
         {
-            return _context.Bets.FromSql("select * from [dbo].[Bet] where ReferreeId={0}", userId);
+            return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId={0}", userId);
         }
 
         public Bet GetById(int id)

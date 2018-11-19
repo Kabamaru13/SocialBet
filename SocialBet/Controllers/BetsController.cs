@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using SocialBet.Helpers;
 using SocialBet.Models;
 using SocialBet.Services;
@@ -62,6 +59,46 @@ namespace SocialBet.Controllers
         }
 
         /// <summary>
+        /// Gets the list of bets for current user
+        /// </summary>
+        /// <returns>The bets</returns>
+        [HttpGet]
+        [Route("scope")]
+        public IActionResult GetForUser()
+        {
+            try
+            {
+                int userId = int.Parse(User.Identity.Name);
+                var bets = _betService.GetForUser(userId);
+                return Ok(new ResultData() { data = bets, error = null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResultData() { data = null, error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of bets for current referree
+        /// </summary>
+        /// <returns>The bets</returns>
+        [HttpGet]
+        [Route("referree")]
+        public IActionResult GetForReferree()
+        {
+            try
+            {
+                int userId = int.Parse(User.Identity.Name);
+                var bets = _betService.GetForReferree(userId);
+                return Ok(new ResultData() { data = bets, error = null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResultData() { data = null, error = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Creates a new bet
         /// </summary>
         /// <param name="bet">The new bet</param>
@@ -81,7 +118,7 @@ namespace SocialBet.Controllers
                 return BadRequest(new ResultData() { data = null, error = ex.Message });
             }
         }
-
+        
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]Bet bet)
         {

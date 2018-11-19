@@ -10,5 +10,11 @@ namespace SocialBet.Helpers
         public DbSet<User> Users { get; set; }
 
         public DbSet<Bet> Bets { get; set; }
+
+        public DbSet<State> States { get; set; }
+
+        public DbSet<BetCategory> BetCategories { get; set; }
+
+        public DbSet<PrizeCategory> PrizeCategories { get; set; }
     }
 }
