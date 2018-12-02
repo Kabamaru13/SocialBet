@@ -27,11 +27,19 @@ namespace SocialBet.Controllers
             try
             {
                 var states = _extraService.GetStates();
-                return Ok(new ResultData() { data = states, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = states,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.States, message = ex.Message }
+                });
             }
         }
 
@@ -41,11 +49,19 @@ namespace SocialBet.Controllers
             try
             {
                 var state = _extraService.GetState(id);
-                return Ok(new ResultData() { data = state, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = state,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.State, message = ex.Message }
+                });
             }
         }
 
@@ -55,11 +71,19 @@ namespace SocialBet.Controllers
             try
             {
                 var categories = _extraService.GetBetCategories();
-                return Ok(new ResultData() { data = categories, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = categories,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetCategories, message = ex.Message }
+                });
             }
         }
 
@@ -69,11 +93,19 @@ namespace SocialBet.Controllers
             try
             {
                 var category = _extraService.GetBetCategory(id);
-                return Ok(new ResultData() { data = category, error = null });
+                return Ok(new ResultData()
+                {
+                    data = category,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetCategory, message = ex.Message }
+                });
             }
         }
 
@@ -83,11 +115,19 @@ namespace SocialBet.Controllers
             try
             {
                 var categories = _extraService.GetPrizeCategories();
-                return Ok(new ResultData() { data = categories, error = null });
+                return Ok(new ResultData()
+                {
+                    data = categories,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.PrizeCategories, message = ex.Message }
+                });
             }
         }
 
@@ -97,11 +137,19 @@ namespace SocialBet.Controllers
             try
             {
                 var category = _extraService.GetPrizeCategory(id);
-                return Ok(new ResultData() { data = category, error = null });
+                return Ok(new ResultData()
+                {
+                    data = category,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.PrizeCategory, message = ex.Message }
+                });
             }
         }
     }

@@ -31,11 +31,19 @@ namespace SocialBet.Controllers
             try
             {
                 var bets = _betService.GetAll();
-                return Ok(new ResultData() { data = bets, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = bets,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetGetAll, message = ex.Message }
+                });
             }
         }
 
@@ -50,11 +58,19 @@ namespace SocialBet.Controllers
             try
             {
                 var bet = _betService.GetById(id);
-                return Ok(new ResultData() { data = bet, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = bet,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetGet, message = ex.Message }
+                });
             }
         }
 
@@ -70,11 +86,19 @@ namespace SocialBet.Controllers
             {
                 int userId = int.Parse(User.Identity.Name);
                 var bets = _betService.GetForUser(userId);
-                return Ok(new ResultData() { data = bets, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = bets,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetScope, message = ex.Message }
+                });
             }
         }
 
@@ -90,11 +114,19 @@ namespace SocialBet.Controllers
             {
                 int userId = int.Parse(User.Identity.Name);
                 var bets = _betService.GetForReferree(userId);
-                return Ok(new ResultData() { data = bets, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = bets,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetReferree, message = ex.Message }
+                });
             }
         }
 
@@ -110,12 +142,20 @@ namespace SocialBet.Controllers
             try
             {
                 var newBet = _betService.Create(bet);
-                return Ok(new ResultData(){ data = newBet, error = null});
+                return Ok(new ResultData()
+                { 
+                    data = newBet,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (AppException ex)
             {
                 // return error message if there was an exception
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetCreate, message = ex.Message }
+                });
             }
         }
         
@@ -128,12 +168,20 @@ namespace SocialBet.Controllers
             {
                 // save 
                 var updated = _betService.Update(bet);
-                return Ok(new ResultData() { data = updated, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = updated,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (AppException ex)
             {
                 // return error message if there was an exception
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetUpdate, message = ex.Message }
+                });
             }
         }
 
@@ -149,11 +197,19 @@ namespace SocialBet.Controllers
             try
             {
                 _betService.Delete(id);
-                return Ok(new ResultData() { data = "Bet deleted successfully", error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = new { message = "Bet deleted successfully" },
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.BetDelete, message = ex.Message }
+                });
             }
         }
     }

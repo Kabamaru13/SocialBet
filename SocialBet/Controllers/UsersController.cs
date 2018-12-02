@@ -42,7 +42,12 @@ namespace SocialBet.Controllers
             var user = _userService.Authenticate(userDto.Username, userDto.Password);
 
             if (user == null)
-                return BadRequest(new ResultData() { data = null, error = "Username or password is incorrect" });
+                return BadRequest(new ResultData() 
+                { 
+                    data = new { }, 
+                    error = new Error() { errorCode = (int)ErrorCode.InvalidAuthentication, message = "Username or password is incorrect" } 
+                });
+
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -72,12 +77,16 @@ namespace SocialBet.Controllers
                         LastName = user.LastName,
                         Token = tokenString
                     },
-                    error = null
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
                 });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData() 
+                { 
+                    data = new { }, 
+                    error = new Error() { errorCode = (int)ErrorCode.AuthenticationGeneric, message = ex.Message } 
+                });
             }
         }
 
@@ -92,12 +101,20 @@ namespace SocialBet.Controllers
             {
                 // save 
                 var newUser = _userService.Create(user, userDto.Password);
-                return Ok(new ResultData() { data = newUser, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = newUser, 
+                    error = new Error() { errorCode = 0, message = "" }
+                });
             }
             catch (AppException ex)
             {
                 // return error message if there was an exception
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData() 
+                { 
+                    data = new { }, 
+                    error = new Error() { errorCode = (int)ErrorCode.RegistrationGeneric, message = ex.Message }
+                });
             }
         }
 
@@ -108,11 +125,19 @@ namespace SocialBet.Controllers
             {
                 var users = _userService.GetAll();
                 var userDtos = _mapper.Map<IList<UserDto>>(users);
-                return Ok(new ResultData() { data = userDtos, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = userDtos, 
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" } 
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData() 
+                { 
+                    data = new { }, 
+                    error = new Error() { errorCode = (int)ErrorCode.UserGetAll, message = ex.Message }
+                });
             }
         }
 
@@ -123,11 +148,19 @@ namespace SocialBet.Controllers
             {
                 var user = _userService.GetById(id);
                 var userDto = _mapper.Map<UserDto>(user);
-                return Ok(new ResultData() { data = userDto, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = userDto, 
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.UserGet, message = ex.Message }
+                });
             }
         }
 
@@ -142,12 +175,20 @@ namespace SocialBet.Controllers
             {
                 // save 
                 var updated = _userService.Update(user, userDto.Password);
-                return Ok(new ResultData() { data = updated, error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = updated,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch (AppException ex)
             {
                 // return error message if there was an exception
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.UserUpdate, message = ex.Message }
+                });
             }
         }
 
@@ -157,11 +198,19 @@ namespace SocialBet.Controllers
             try
             {
                 _userService.Delete(id);
-                return Ok(new ResultData() { data = "User deleted successfully", error = null });
+                return Ok(new ResultData() 
+                { 
+                    data = new { message = "User deleted successfully" },
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
             }
             catch(Exception ex)
             {
-                return BadRequest(new ResultData() { data = null, error = ex.Message });
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.UserDelete, message = ex.Message }
+                });
             }
         }
     }
