@@ -80,6 +80,9 @@ namespace SocialBet.Services
 
                 _context.Users.Add(user);
                 _context.SaveChanges();
+
+                _context.UserStats.Add(new UserStat(user.Id));
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {

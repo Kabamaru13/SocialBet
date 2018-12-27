@@ -62,5 +62,10 @@ namespace SocialBet.Models
         /// The bet state.
         /// </summary>
         public int State { get; set; }
+
+        /// <summary>
+        /// The ID of the winner.
+        /// </summary>
+        public int WinnerId { get; set; }
     }
 }
