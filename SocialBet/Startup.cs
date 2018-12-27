@@ -95,6 +95,7 @@ namespace SocialBet
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBetService, BetService>();
+            services.AddScoped<IExtraService, ExtraService>();
 
             //This line adds Swagger generation services to our container.
             services.AddSwaggerGen(c =>

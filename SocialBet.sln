@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialBet", "SocialBet\SocialBet.csproj", "{81B64B83-CD83-497E-8F2A-F0BAB840E7CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialBet.UnitTests", "SocialBet.UnitTests\SocialBet.UnitTests.csproj", "{282FB331-884C-4B7C-B0CA-61058633781E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{81B64B83-CD83-497E-8F2A-F0BAB840E7CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81B64B83-CD83-497E-8F2A-F0BAB840E7CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81B64B83-CD83-497E-8F2A-F0BAB840E7CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282FB331-884C-4B7C-B0CA-61058633781E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282FB331-884C-4B7C-B0CA-61058633781E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282FB331-884C-4B7C-B0CA-61058633781E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282FB331-884C-4B7C-B0CA-61058633781E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

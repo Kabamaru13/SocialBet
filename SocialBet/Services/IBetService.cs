@@ -9,8 +9,8 @@ namespace SocialBet.Services
     public interface IBetService
     {
         IEnumerable<Bet> GetAll();
-        IEnumerable<Bet> GetForUser(int userId);
-        IEnumerable<Bet> GetForReferree(int userId);
+        IEnumerable<Bet> GetForUser(int userId, int state);
+        IEnumerable<Bet> GetForReferree(int userId, int state);
         Bet GetById(int id);
         Bet Create(Bet bet);
         Bet Update(Bet bet);
@@ -31,14 +31,16 @@ namespace SocialBet.Services
             return _context.Bets;
         }
 
-        public IEnumerable<Bet> GetForUser(int userId)
+        public IEnumerable<Bet> GetForUser(int userId, int state)
         {
-            return _context.Bets.FromSql("select * from [dbo].[Bets] where CreatorId={0} or RivalId={0}", userId);
+            if (state == 0) return _context.Bets.FromSql("select * from [dbo].[Bets] where CreatorId={0} or RivalId={0}", userId);
+            else return _context.Bets.FromSql("select * from [dbo].[Bets] where (CreatorId={0} or RivalId={0}) and State={1}", userId, state);
         }
 
-        public IEnumerable<Bet> GetForReferree(int userId)
+        public IEnumerable<Bet> GetForReferree(int userId, int state)
         {
-            return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId={0}", userId);
+            if (state == 0) return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId={0}", userId);
+            else return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId={0} and State={1}", userId, state);
         }
 
         public Bet GetById(int id)

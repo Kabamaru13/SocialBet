@@ -78,12 +78,12 @@ namespace SocialBet.Controllers
         /// <returns>The bets</returns>
         [HttpGet]
         [Route("scope")]
-        public IActionResult GetForUser()
+        public IActionResult GetForUser(int state = 0)
         {
             try
             {
                 int userId = int.Parse(User.Identity.Name);
-                var bets = _betService.GetForUser(userId);
+                var bets = _betService.GetForUser(userId, state);
                 return Ok(new ResultData() 
                 { 
                     data = bets,
@@ -106,12 +106,12 @@ namespace SocialBet.Controllers
         /// <returns>The bets</returns>
         [HttpGet]
         [Route("referree")]
-        public IActionResult GetForReferree()
+        public IActionResult GetForReferree(int state = 0)
         {
             try
             {
                 int userId = int.Parse(User.Identity.Name);
-                var bets = _betService.GetForReferree(userId);
+                var bets = _betService.GetForReferree(userId, state);
                 return Ok(new ResultData() 
                 { 
                     data = bets,

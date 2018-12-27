@@ -66,6 +66,6 @@ namespace SocialBet.Models
         /// <summary>
         /// The ID of the winner.
         /// </summary>
-        public int WinnerId { get; set; }
+        public int? WinnerId { get; set; }
     }
 }
