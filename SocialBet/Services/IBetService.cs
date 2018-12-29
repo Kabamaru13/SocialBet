@@ -33,14 +33,14 @@ namespace SocialBet.Services
 
         public IEnumerable<Bet> GetForUser(int userId, int state)
         {
-            if (state == 0) return _context.Bets.FromSql("select * from [dbo].[Bets] where CreatorId={0} or RivalId={0}", userId);
-            else return _context.Bets.FromSql("select * from [dbo].[Bets] where (CreatorId={0} or RivalId={0}) and State={1}", userId, state);
+            if (state == 0) return _context.Bets.FromSql("select * from [dbo].[Bets] where CreatorId='{0}' or RivalId='{0}'", userId);
+            else return _context.Bets.FromSql("select * from [dbo].[Bets] where (CreatorId='{0}' or RivalId='{0}') and State={1}", userId, state);
         }
 
         public IEnumerable<Bet> GetForReferree(int userId, int state)
         {
-            if (state == 0) return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId={0}", userId);
-            else return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId={0} and State={1}", userId, state);
+            if (state == 0) return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId='{0}'", userId);
+            else return _context.Bets.FromSql("select * from [dbo].[Bets] where ReferreeId='{0}' and State={1}", userId, state);
         }
 
         public Bet GetById(int id)

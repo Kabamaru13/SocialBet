@@ -10,10 +10,10 @@ namespace SocialBet.Services
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
-        User GetById(int id);
+        User GetById(string id);
         User Create(User user, string password);
         User Update(User user, string password = null);
-        void Delete(int id);
+        void Delete(string id);
     }
 
     public class UserService : IUserService
@@ -57,7 +57,7 @@ namespace SocialBet.Services
             return _context.Users;
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
             return _context.Users.Find(id);
         }
@@ -132,7 +132,7 @@ namespace SocialBet.Services
             }
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var user = _context.Users.Find(id);
             if (user != null)

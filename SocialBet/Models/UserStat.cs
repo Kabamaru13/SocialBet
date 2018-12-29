@@ -2,7 +2,7 @@
 {
     public class UserStat
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int NumOfBets { get; set; }
         public int NumOfWins { get; set; }
         public int NumOfLosses { get; set; }
@@ -14,7 +14,7 @@
         public int Experience { get; set; }
         public string Title { get; set; }
 
-        public UserStat(int id)
+        public UserStat(string id)
         {
             Id = id;
             NumOfBets = 0;

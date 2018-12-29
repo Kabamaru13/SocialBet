@@ -16,17 +16,17 @@ namespace SocialBet.Models
         /// <summary>
         /// The ID of the creator.
         /// </summary>
-        public int CreatorId { get; set; }
+        public string CreatorId { get; set; }
 
         /// <summary>
         /// The ID of the rival.
         /// </summary>
-        public int RivalId { get; set; }
+        public string RivalId { get; set; }
 
         /// <summary>
         /// The ID of the referree.
         /// </summary>
-        public int ReferreeId { get; set; }
+        public string ReferreeId { get; set; }
 
         /// <summary>
         /// The starting date.
@@ -66,6 +66,6 @@ namespace SocialBet.Models
         /// <summary>
         /// The ID of the winner.
         /// </summary>
-        public int? WinnerId { get; set; }
+        public string WinnerId { get; set; }
     }
 }

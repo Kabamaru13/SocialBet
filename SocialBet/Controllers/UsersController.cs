@@ -140,7 +140,7 @@ namespace SocialBet.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace SocialBet.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UserDto userDto)
+        public IActionResult Update(string id, [FromBody]UserDto userDto)
         {
             // map dto to entity and set id
             var user = _mapper.Map<User>(userDto);
@@ -191,7 +191,7 @@ namespace SocialBet.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             try
             {

@@ -75,7 +75,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Users](
-    [Id] [int] NOT NULL,
+    [Id] [varchar](50) NOT NULL,
     [FirstName] [varchar](250) NULL,
     [LastName] [varchar](250) NULL,
     [Username] [varchar](250) NULL,
@@ -99,7 +99,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[UserStats](
-    [Id] [int] NOT NULL,
+    [Id] [varchar](50) NOT NULL,
     [NumOfBets] [int] NOT NULL,
     [NumOfWins] [int] NOT NULL,
     [NumOfLosses] [int] NOT NULL,
@@ -121,10 +121,10 @@ ALTER TABLE [dbo].[UserStats]  WITH CHECK ADD FOREIGN KEY([Id])
 REFERENCES [dbo].[Users] ([Id])
 GO
 
-insert into dbo.UserStats values (1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
-insert into dbo.UserStats values (2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
-insert into dbo.UserStats values (3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
-insert into dbo.UserStats values (1337, 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
+insert into dbo.UserStats values ('1', 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
+insert into dbo.UserStats values ('2', 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
+insert into dbo.UserStats values ('3', 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
+insert into dbo.UserStats values ('1337', 0, 0, 0, 0, 0, 0, 0, 1, 0, 'Newbie')
 
 SET ANSI_NULLS ON
 GO
@@ -133,9 +133,9 @@ GO
 CREATE TABLE [dbo].[Bets](
     [Id] [int] IDENTITY(1,1) NOT NULL,
     [Description] [varchar](1024) NULL,
-    [CreatorId] [int] NOT NULL,
-    [RivalId] [int] NOT NULL,
-    [ReferreeId] [int] NOT NULL,
+    [CreatorId] [varchar](50) NOT NULL,
+    [RivalId] [varchar](50) NOT NULL,
+    [ReferreeId] [varchar](50) NOT NULL,
     [StartDate] [datetime] NULL,
     [EndDate] [datetime] NULL,
     [BetCategoryId] [int] NOT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE [dbo].[Bets](
     [PrizeCategoryId] [int] NOT NULL,
     [PrizeDescription] [varchar](1024) NULL,
     [State] [int] NOT NULL,
-    [WinnerId] [int] NULL
+    [WinnerId] [varchar](50) NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Bets] ADD PRIMARY KEY CLUSTERED 
