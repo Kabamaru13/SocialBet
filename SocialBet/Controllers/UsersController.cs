@@ -33,6 +33,11 @@ namespace SocialBet.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Authenticate the specified user.
+        /// </summary>
+        /// <returns>The authenticated user</returns>
+        /// <param name="userDto">User dto - username, password</param>
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]UserDto userDto)
@@ -54,9 +59,10 @@ namespace SocialBet.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                        new Claim(ClaimTypes.Name, user.Id),
+                        user.Username == "Kabamaru" ? new Claim("AdminBadge", "") : null
                     }),
-                    Expires = DateTime.UtcNow.AddDays(7),
+                    Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 
@@ -88,6 +94,51 @@ namespace SocialBet.Controllers
             }
         }
 
+        /// <summary>
+        /// Checks the username availability
+        /// </summary>
+        /// <returns>Success if username is available</returns>
+        /// <param name="username">The username to check</param>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("availability")]
+        public IActionResult IsAvailable(string username)
+        {
+            try
+            {
+                if (_userService.IsAvailable(username))
+                {
+                    return Ok(new ResultData()
+                    {
+                        data = new { },
+                        error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ResultData()
+                    {
+                        data = new { },
+                        error = new Error() { errorCode = (int)ErrorCode.UsernameAvailability, message = "Username '" + username + "' already exists." }
+                    });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.UsernameAvailability, message = ex.Message }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Register the specified user
+        /// </summary>
+        /// <returns>The registered user</returns>
+        /// <param name="userDto">User dto</param>
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody]UserDto userDto)
@@ -105,17 +156,31 @@ namespace SocialBet.Controllers
                     error = new Error() { errorCode = 0, message = "" }
                 });
             }
-            catch (AppException ex)
+            catch (Exception ex)
             {
+                if (ex.Message.Contains("is already registered. Authentication needed."))
+                {
+                    return Ok(new ResultData()
+                    {
+                        data = new { },
+                        error = new Error() { errorCode = (int)ErrorCode.RegistrationBypass, message = ex.Message }
+                    });
+                }
+
                 // return error message if there was an exception
-                return BadRequest(new ResultData() 
-                { 
-                    data = new { }, 
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
                     error = new Error() { errorCode = (int)ErrorCode.RegistrationGeneric, message = ex.Message }
                 });
             }
         }
 
+        /// <summary>
+        /// Gets all users
+        /// </summary>
+        /// <returns>All users</returns>
+        [Authorize(Policy = "AdminOnly")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -139,6 +204,11 @@ namespace SocialBet.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the specified user
+        /// </summary>
+        /// <returns>The user</returns>
+        /// <param name="id">Id of the user</param>
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
@@ -162,6 +232,35 @@ namespace SocialBet.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the user's stats.
+        /// </summary>
+        /// <returns>The stats.</returns>
+        /// <param name="id">The id of the requested user</param>
+        [HttpGet]
+        [Route("stats")]
+        public IActionResult GetStats(string id)
+        {
+            try
+            {
+                var userStats = _userService.GetStats(id);
+                return Ok(new ResultData()
+                {
+                    data = userStats,
+                    error = new Error() { errorCode = (int)ErrorCode.NoError, message = "" }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResultData()
+                {
+                    data = new { },
+                    error = new Error() { errorCode = (int)ErrorCode.UserStats, message = ex.Message }
+                });
+            }
+        }
+
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id}")]
         public IActionResult Update(string id, [FromBody]UserDto userDto)
         {
@@ -190,6 +289,7 @@ namespace SocialBet.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {

@@ -11,9 +11,12 @@ namespace SocialBet.Services
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
         User GetById(string id);
+        UserStat GetStats(string id);
+        Boolean IsAvailable(string username);
         User Create(User user, string password);
         User Update(User user, string password = null);
         void Delete(string id);
+        UserStat UpdateStats(string id, StatFunction func, int xp = 0);
     }
 
     public class UserService : IUserService
@@ -62,11 +65,33 @@ namespace SocialBet.Services
             return _context.Users.Find(id);
         }
 
+        public UserStat GetStats(string id)
+        {
+            return _context.UserStats.Find(id);
+        }
+
+        public Boolean IsAvailable(string username)
+        {
+            return !_context.Users.Any(x => x.Username == username);
+        }
+
         public User Create(User user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
+
+            if (user.Id == user.Username && _context.Users.Any(x => x.Id == user.Id))
+            {
+                var _user = _context.Users.Find(user.Id);
+                if (string.IsNullOrWhiteSpace(_user.FirstName) || string.IsNullOrWhiteSpace(_user.LastName))
+                {
+                    _user.FirstName = user.FirstName;
+                    _user.LastName = user.LastName;
+                    Update(_user);
+                }
+                throw new AppException("User with id \"" + user.Id + "\" is already registered. Authentication needed.");
+            }
 
             if (_context.Users.Any(x => x.Username == user.Username))
                 throw new AppException("Username \"" + user.Username + "\" is already taken");
@@ -149,6 +174,45 @@ namespace SocialBet.Services
             }
         }
 
+        public UserStat UpdateStats(string id, StatFunction func, int xp = 0)
+        {
+            var stat = _context.UserStats.Find(id);
+
+            if (func == StatFunction.Cancellation)
+            {
+                stat.NumOfCancelled++;
+            }
+            else if (func == StatFunction.Creation)
+            {
+                stat.NumOfBets++;
+            }
+            else if (func == StatFunction.Referee)
+            {
+                stat.NumOfReferreed++;
+            }
+            else if (func == StatFunction.Win)
+            {
+                stat.NumOfWins++;
+            }
+            else if (func == StatFunction.Loss)
+            {
+                stat.NumOfLosses++;
+            }
+            else if (func == StatFunction.Draw)
+            {
+                stat.NumOfDraws++;
+            }
+            else if (func == StatFunction.XP)
+            {
+                // xp ???
+            }
+
+            _context.UserStats.Update(stat);
+            _context.SaveChanges();
+
+            return stat;
+        }
+
         // private helper methods
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -180,6 +244,22 @@ namespace SocialBet.Services
             }
 
             return true;
+        }
+
+
+
+        private int getXPForLevel(int lvl)
+        {
+            int baseXP = 100;
+            int ret = 0;
+
+            for (int i = 1; i < lvl; i++)
+            {
+                ret += baseXP;
+                baseXP += 50;
+            }
+
+            return ret;
         }
     }
 }
